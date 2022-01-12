@@ -12,15 +12,17 @@ try:
     mycol = mydb["history"]
     stocks_list = mycol.find_one({"_id":date})
     for i, row in till_date.iterrows():
-        print(i, row['High'], stocks_list['stocks'][stock_symbol]['buy'])
+        print(f"{i}, Today high: {row['High']}, "
+              f" we need to buy at : {stocks_list['stocks'][stock_symbol]['buy']}")
         if row['High'] > stocks_list['stocks'][stock_symbol]['buy']:
             for j, row2 in till_date.iterrows():
                 if i >= j:
                     continue
                 else:
-                    print(j, row2['High'],stocks_list['stocks'][stock_symbol]['buy'],
-                          row2['High'] - stocks_list['stocks'][stock_symbol]['buy'])
+                    print(f"{j}, Today high: {row2['High']}, "
+                          f" we bought at : {stocks_list['stocks'][stock_symbol]['buy']}, "
+                          f" Profit/loss: {row2['High'] - stocks_list['stocks'][stock_symbol]['buy']}")
             break
 
 except Exception as e:
-    print("Error %s", e)
+    print("Error ", e)
