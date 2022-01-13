@@ -5,7 +5,7 @@ import pymongo as pym
 import time
 
 
-inf = ['../data/ind_nifty50list.csv','../data/ind_niftymidcap50list.csv', '../data/ind_niftysmallcap50list.csv']
+inf = ['../data/ind_niftynext50list.csv','../data/ind_nifty50list.csv','../data/ind_niftymidcap50list.csv', '../data/ind_niftysmallcap50list.csv']
 # get historical market data
 
 
@@ -23,6 +23,7 @@ def hl_screener(history, stock_symbol):
             high = day['High']
             down = day['Low']
             ind = 1
+            days_count = days_count + 1
         elif low < day['High'] and high < day['High']:
             up = day['High']
             low = day['Close']
@@ -30,7 +31,7 @@ def hl_screener(history, stock_symbol):
             days_count = days_count + 1
         else:
             break
-    if up > 0 and days_count >= 3 and ((up - down)/down) > 0.02:
+    if up > 0 and days_count >= 2 and ((up - low)/low) > 0.02:
         mid = (down + up)/2
         print(f"stock_symbol {stock_symbol}, buy at {mid}, total days between low {down} and high {up} is {days_count}")
         stocks_data[stock_symbol]={"buy":mid, "down":down, "up":up, "days_count":days_count}

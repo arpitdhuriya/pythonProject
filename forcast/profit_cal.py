@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 import yfinance as yf
 import pymongo as pym
 
@@ -9,7 +10,7 @@ while True:
         break
     try:
         data = yf.Ticker(f"{stock_symbol}.NS")
-        till_date = data.history(start=date, end=datetime.datetime.now().date())
+        till_date = data.history(start=date, end=datetime.datetime.now().date() + timedelta(days=1))
         myclient = pym.MongoClient("mongodb://localhost:27017/")
         mydb = myclient["stocks"]
         mycol = mydb["history"]
